@@ -15,7 +15,7 @@ class Ball
 	def move()
 		outerbounds = @position.add(Size.new(WIDTH,HEIGHT))
 
-		if (@position.x <= 0 || outerbounds.x >= @window.width)
+		if (@position.x <= 0 || outerbounds.x >= @window.width || collides?(@window.left_paddle) || collides?(@window.right_paddle))
 			@vel_x = -1 * @vel_x
 		end
 
@@ -28,5 +28,12 @@ class Ball
 
 	def draw()
 		@image.draw(@position.x, @position.y, 1)
+	end
+
+	def collides?(paddle)
+		left_top = @position
+		bottom_right = @position.add(Size.new(WIDTH,HEIGHT))
+
+		return !(bottom_right.y < paddle.left_top.y or left_top.y > paddle.bottom_right.y or left_top.x > paddle.bottom_right.x or bottom_right.x < paddle.left_top.x)
 	end
 end

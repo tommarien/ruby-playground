@@ -4,6 +4,8 @@ require './ball'
 require './paddle'
 
 class PaddleGame < Gosu::Window
+	attr_reader :left_paddle, :right_paddle
+	
 	def initialize
 		super 800,600, false
 		@background_image = Gosu::Image.new(self, "images/background.jpg", true)
