@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'gosu'
 require 'ball'
 
 describe Ball do
