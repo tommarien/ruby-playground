@@ -3,7 +3,8 @@ require 'paddle'
 
 describe Paddle do
   before do
-    @paddle = Paddle.new
+    @given_window = stub(:height => 600)
+    @paddle = Paddle.new(@given_window)
   end
 
   describe ".new" do
@@ -38,6 +39,68 @@ describe Paddle do
       @paddle.warp(5, 10)
 
       @paddle.y.should == 10
+    end
+  end
+
+  describe "#move_down" do
+    context "within bounds of window" do
+      it "adjusts the y-axis according to the velocity" do
+        @paddle.move_down
+
+        @paddle.y.should == 5
+      end
+    end
+    context "at edge of window" do
+      before do
+        @paddle.warp(0, 540)
+      end
+      it "does not move" do
+          @paddle.move_down
+
+          @paddle.y.should == 540
+      end
+    end
+    context "out of bounds of window" do
+      before do
+        @paddle.warp(0, 600)
+      end
+      it "does not move" do
+          @paddle.move_down
+
+          @paddle.y.should == 600
+      end
+    end
+  end
+  describe "#move_up" do
+    before do
+      @paddle.warp(0, 5)
+    end
+    context "within bounds of window" do
+      it "adjusts the y-axis according to the velocity" do
+        @paddle.move_up
+
+        @paddle.y.should == 0
+      end
+    end
+    context "at edge of window" do
+      before do
+        @paddle.warp(0, 0)
+      end
+      it "does not move" do
+          @paddle.move_up
+
+          @paddle.y.should == 0
+      end
+    end
+    context "out of bounds of window" do
+      before do
+        @paddle.warp(0, -10)
+      end
+      it "does not move" do
+          @paddle.move_up
+
+          @paddle.y.should == -10
+      end
     end
   end
 end
